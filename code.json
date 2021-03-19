@@ -1,0 +1,8 @@
+{
+  "24": "There is an argument not a valid ObjectId",
+  "1001": "Invalid Token.",
+  "1002": "Token expire date.",
+  "4810": "Answer format error.",
+  "4831": "Warning\uff0canswer time too short.",
+  "4832": "Greater than the join threshold."
+}

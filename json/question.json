@@ -1,0 +1,40 @@
+{
+  "code": 0,
+  "data": {
+    "id": "000000000000000000000000",
+    "title": "题目",
+    "category": 1,
+    "content": null,
+    "source": null,
+    "options": [
+      {
+        "id": "000000000000000000000000",
+        "code": "B",
+        "title": "选项",
+        "weight": 2
+      },
+      {
+        "id": "",
+        "code": "D",
+        "title": "选项",
+        "weight": 4
+      },
+      {
+        "id": "",
+        "code": "C",
+        "title": "选项",
+        "weight": 3
+      },
+      {
+        "id": "",
+        "code": "A",
+        "title": "选项",
+        "weight": 1
+      }
+    ],
+    "media_id": "000000000000000000000000",
+    "media_content_type": "application/octet-stream",
+    "media_location": "https://univs-sishi-1256833609.cos.ap-beijing.myqcloud.com/HEPE3/images/2020/09/21/16006933320901262.png"
+  },
+  "status_code": 200
+}

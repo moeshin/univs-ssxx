@@ -1,0 +1,25 @@
+{
+  "code": 0,
+  "data": {
+    "status": 2,
+    "integral": 20,
+    "owner": {
+      "id": "6050912d3680ef7a0a960c8b",
+      "name": "马保国",
+      "univ_id": "5b88f6d598234d3ae8d84598",
+      "univ_name": "清华大学",
+      "province_code": "110000",
+      "province_name": "北京市",
+      "correct_amount": 20,
+      "consume_time": 18
+    },
+    "opponent": {},
+    "mode": {
+      "id": "5f71e934bcdbf3a8c3ba51d5",
+      "title": "英雄篇",
+      "mode": 1
+    },
+    "badge": false
+  },
+  "status_code": 200
+}

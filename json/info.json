@@ -1,0 +1,18 @@
+{
+  "code": 0,
+  "data": {
+    "name": "马保国",
+    "t_title": null,
+    "university_name": "清华大学",
+    "province_name": "北京市",
+    "cert_status": false,
+    "cert_type": 1,
+    "cert_location": null,
+    "integral": 1,
+    "badges": 0,
+    "join_times": 0,
+    "t_join_times": 0,
+    "t_integral": 0
+  },
+  "status_code": 200
+}
