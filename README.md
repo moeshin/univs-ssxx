@@ -1,5 +1,7 @@
 且用且珍惜，别去冲榜
 
+[Get UID](get-uid.svg)
+
 ### Requirements
 
 ```shell
