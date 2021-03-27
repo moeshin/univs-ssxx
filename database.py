@@ -22,6 +22,8 @@ class DB:
         options = json_dump(options)
         return self.gets(title, options)
 
+    def search(self, keywords) -> [list, None]: ...
+
 
 class SQLite(DB):
 
@@ -53,6 +55,16 @@ class SQLite(DB):
             return None
         aids, = data
         return json.loads(aids)
+
+    def search(self, keywords) -> [list, None]:
+        cursor = self.con.cursor()
+        cursor.execute(
+            'SELECT * FROM `question` WHERE `title` like ?',
+            ('%' + keywords + '%',)
+        )
+        data = cursor.fetchall()
+        cursor.close()
+        return data
 
     def __init__(self, file: str = common.get_path('database.db')):
         self.con = sqlite3.connect(file, check_same_thread=False)

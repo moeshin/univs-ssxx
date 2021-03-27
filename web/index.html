@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Question Bank</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"
+            integrity="sha384-cLRrMq39HOZdvE0j6yBojO4+1PrHfB7a9l5qLcmRm/fiWXYY+CndJPmyu5FV/9Tw"
+            crossorigin="anonymous"
+    />
+    <script
+            src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"
+            integrity="sha384-gCMZcshYKOGRX9r6wbDrvF+TcCCswSHFucUzUPwka+Gr+uHgjlYvkABr95TCOz3A"
+            crossorigin="anonymous"
+    ></script>
+</head>
+<body class="mdui-appbar-with-toolbar mdui-theme-layout-auto mdui-theme-primary-indigo mdui-theme-accent-pink">
+<header class="mdui-appbar mdui-appbar-fixed">
+    <div class="mdui-toolbar mdui-color-theme">
+        <p class="mdui-typo-title">Question Bank</p>
+    </div>
+</header>
+<div class="mdui-container">
+    <div class="mdui-textfield mdui-textfield-floating-label">
+        <i class="mdui-icon material-icons">search</i>
+        <label class="mdui-textfield-label" for="key">Key words</label>
+        <input class="mdui-textfield-input" autocomplete="off" id="key"/>
+    </div>
+    <div class="mdui-text-right">
+        <button class="mdui-btn mdui-ripple mdui-btn-raised mdui-color-theme-accent" id="btn" type="button">Search</button>
+    </div>
+    <div id="result"></div>
+</div>
+<script>
+(function ($) {
+    const $key = $('#key');
+    function search() {
+        const key = $key.val();
+        if (!key) {
+            mdui.alert('Please enter key words!');
+            return;
+        }
+        $.ajax({
+            url: 'search',
+            method: 'POST',
+            data: {
+                key: key
+            },
+            success: function (questions) {
+                questions = JSON.parse(questions);
+                const container = $('#result');
+                const length = questions.length;
+                container.html(`<h2>Search '${key}', found ${length}</h2>`);
+                for (let i = 0; i < length;) {
+                    const question = questions[i++];
+                    const options = JSON.parse(question.opts);
+                    const aids = JSON.parse(question.aids);
+                    container
+                        .append(`<div class="mdui-divider"></div>`)
+                        .append(`<p class="mdui-typo mdui-typo-subheading" style="text-indent:2em;">${question.title}</p>`);
+                    const len = options.length;
+                    const ul = $('<ul class="mdui-list"></ul>');
+                    for (let j = 0; j < len;) {
+                        const option = options[j];
+                        ul.append(`
+<li class="mdui-list-item">
+    <label class="mdui-checkbox">
+        <input type="checkbox"${aids.indexOf(j++) !== -1 ? ' checked' : ''}/>
+        <i class="mdui-checkbox-icon"></i>
+        ${option}
+    </label>
+</li>`);
+                    }
+                    container.append(ul);
+                }
+            }
+        });
+    }
+    $(document).on('click', '#result input[type=checkbox]', function () {
+        return false;
+    });
+    $key.on('keydown', function (e) {
+        if (e.keyCode === 13) {
+            search();
+        }
+    });
+    $('#btn').on('click', search);
+})(mdui.$);
+</script>
+</body>
+</html>

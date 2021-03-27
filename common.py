@@ -8,7 +8,7 @@ def get_path(name):
 
 
 def read_all(path: str):
-    file = open(path)
+    file = open(path, 'r', encoding='UTF-8')
     data = file.read()
     file.close()
     return data
