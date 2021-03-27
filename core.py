@@ -10,7 +10,7 @@ import database
 import common
 import threading
 from pyquery import PyQuery
-from typing import Union
+from typing import Union, Optional
 
 mode_list = [
     {
@@ -57,7 +57,7 @@ logger = logging.getLogger(__name__)
 activity_id = '5f71e934bcdbf3a8c3ba5061'
 
 
-def get_uid(token: str) -> [str, None]:
+def get_uid(token: str) -> Union[str, None]:
     if token:
         arr = token.split('.')
         if len(arr) == 3:
@@ -95,6 +95,37 @@ def get_text_from_html(html: str) -> str:
     return pq.text(block_symbol='').strip()
 
 
+class SleepRang:
+
+    def __init__(self, start: int, end: Optional[int] = None):
+        self.start = start
+        self.end = end
+
+    def sleep(self):
+        t = random.randint(self.start, self.end) if self.end else self.start
+        t /= 1000
+        time.sleep(t)
+
+
+def parse_sleep(mixed: Union[str, int, SleepRang, None]) -> SleepRang:
+    end = None
+    if mixed is None:
+        return SleepRang(500)
+    elif isinstance(mixed, str):
+        arr = mixed.split('~')
+        length = len(arr)
+        start = int(arr[0])
+        if length == 2:
+            end = int(arr[1])
+    elif isinstance(mixed, int):
+        start = mixed
+    elif isinstance(mixed, SleepRang):
+        return mixed
+    else:
+        raise Exception('parse sleep error')
+    return SleepRang(start, end)
+
+
 class User:
 
     def set_uid(self, uid: str):
@@ -110,7 +141,7 @@ class User:
             with open(self.token_file, 'w') as fp:
                 fp.write(token)
 
-    def get_local_token(self) -> [str, None]:
+    def get_local_token(self) -> Union[str, None]:
         logger.debug(self.token_file)
         if os.path.exists(self.token_dir):
             file = self.token_file
@@ -184,10 +215,10 @@ class User:
         print('Hi, %s' % data['name'])
         print('Your score: %d' % data['integral'])
 
-    def mode(self, mid: Union[str, int] = 0, sleep: float = 0.5):
+    def mode(self, mid: Union[str, int] = 0, sleep: Union[str, int, SleepRang, None] = None):
         return Mode(self, mid, sleep)
 
-    def modes(self, mixed: list[Union[str, int]], count: int = 1000, sleep: float = 0.5):
+    def modes(self, mixed: list[Union[str, int]], count: int = 1000, sleep: Union[str, int, SleepRang, None] = None):
         threads = []
         for m in mixed:
             mode = self.mode(m, sleep)
@@ -202,7 +233,7 @@ class User:
         except KeyboardInterrupt:
             pass
 
-    def __init__(self, mixed: str = common.get_path('token.txt'), db: Union[database.DB, None] = None,
+    def __init__(self, mixed: str = common.get_path('token.txt'), db: Optional[database.DB] = None,
                  token_dir: str = common.get_path('tokens'), remote: bool = False):
         """
         :param mixed: uid, file or file path
@@ -219,7 +250,7 @@ class User:
 
 class Mode:
 
-    def params(self, params: Union[dict, None] = None) -> dict:
+    def params(self, params: Optional[dict] = None) -> dict:
         default = {
             'activity_id': activity_id,
             'mode_id': self.mid,
@@ -328,7 +359,7 @@ class Mode:
                 for option in options:
                     if option['title'] in _aids:
                         aids.append(option['id'])
-            time.sleep(self.sleep)
+            self.sleep.sleep()
             data = self.api_answer(qid, aids)
             if new and has_db:
                 aids = data['correct_ids']
@@ -358,10 +389,11 @@ class Mode:
         finally:
             threads.remove(threading.current_thread())
 
-    def __init__(self, user: User, mixed: Union[str, int] = 0, sleep: float = 0.5):
+    def __init__(self, user: User, mixed: Union[str, int] = 0,
+                 sleep: Union[str, int, SleepRang, None] = None):
         """
         :param mixed: mode_id or mode_list index
         """
         self.user = user
-        self.sleep = sleep
+        self.sleep = parse_sleep(sleep)
         self.mid = mixed if isinstance(mixed, str) and pattern_id.fullmatch(mixed) else mode_list[int(mixed)]['id']

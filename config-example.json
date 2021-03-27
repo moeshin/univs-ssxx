@@ -1,4 +1,8 @@
 {
+  "user": "",
   "db": "database.db",
+  "mode": 0,
+  "count": 1,
+  "sleep": 500,
   "debug": false
 }

@@ -13,8 +13,8 @@ if __name__ == '__main__':
                         help='uid, token or file path. default read token.txt')
     parser.add_argument('-m', '--mode',
                         help='mode, default 0')
-    parser.add_argument('-s', '--sleep', type=float,
-                        help='sleep second, default 0.5')
+    parser.add_argument('-s', '--sleep',
+                        help='delay ms, default 500, e.g. 500 500~1000')
     parser.add_argument('-n', '--count', type=int,
                         help='count, default 1')
     parser.add_argument('--db', help='database file path, default database.db')
@@ -25,7 +25,7 @@ if __name__ == '__main__':
     config = {
         'db': common.get_path('database.db'),
         'debug': False,
-        'sleep': 0.5,
+        'sleep': 500,
         'count': 1,
         'mode': 0
     }
