@@ -28,3 +28,11 @@ options:
 --db                    database file path, default database.db
 --debug, --no-debug     debug
 ```
+
+### Question Bank
+
+```shell
+python3 search.py
+```
+
+Then open http://127.0.0.1:8080/

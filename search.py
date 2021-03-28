@@ -13,7 +13,7 @@ def app(environ, start_response):
     url = environ['PATH_INFO']
     if url == '/':
         start_response('200 OK', [('Content-Type', 'text/html')])
-        htm = common.read_all('index.html')
+        htm = common.read_all(common.get_path('search.html'))
         return [htm.encode()]
     elif url == '/search' and environ['REQUEST_METHOD'] == 'POST':
         start_response('200 OK', [('Content-Type', 'application/json')])
@@ -40,5 +40,5 @@ db_path = common.get_path('database.db')
 
 if __name__ == '__main__':
     with make_server('0.0.0.0', 8080, app) as httpd:
-        print("Serving HTTP on port 8000...")
+        print("Serving HTTP on port 8080...")
         httpd.serve_forever()
