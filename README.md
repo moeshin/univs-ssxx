@@ -1,6 +1,10 @@
 且用且珍惜，别去冲榜
 
-[Get UID](get-uid.svg)
+[Get UID](https://api.moeshin.com/univs_ssxx_uid/)
+
+### Database
+
+Download [database.db](https://github.com/moeshin/univs-ssxx/releases/download/database/database.db)
 
 ### Requirements
 
