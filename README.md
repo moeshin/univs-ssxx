@@ -36,3 +36,7 @@ python3 search.py
 ```
 
 Then open http://127.0.0.1:8080/
+
+### Other Scripts
+
+https://github.com/Upsetin/ChinaUniOnline
